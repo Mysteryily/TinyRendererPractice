@@ -7,9 +7,9 @@
 
 const TGAColor white = {255, 255, 255, 255}; // RGB order (note: constructor maps R->b, G->g, B->r, A->a)
 const TGAColor green = {0, 255, 0, 255};
-const TGAColor red = {255, 0, 0, 255};
-const TGAColor blue = {0, 0, 255, 255};
-const TGAColor yellow = {255, 255, 0, 255};
+const TGAColor red = {0, 0, 255, 255};
+const TGAColor blue = {255, 0, 0, 255};
+const TGAColor yellow = {0, 255, 255, 255};
 
 
 void line(int ax, int ay, int bx, int by, TGAImage &framebuffer, TGAColor color) {
