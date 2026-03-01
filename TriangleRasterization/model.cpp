@@ -1,3 +1,5 @@
+#include <iostream>
+#include <sstream>
 #include "model.h"
 
 void parse_face_vertex(const std::string& vertex_str, int& v, int& vt, int& vn) {

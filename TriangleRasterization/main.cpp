@@ -43,6 +43,10 @@ double signed_triangle_area(int ax, int ay, int bx, int by, int cx, int cy) {
     return .5 * ((by - ay) * (bx + ax) + (cy - by) * (cx + bx) + (ay - cy) * (ax + cx));
 }
 
+double edge_function(int ax, int ay, int bx, int by, int px, int py) {
+    return (bx - ax) * (py - ay) - (by - ay) * (px - ax);
+}
+
 void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuffer, const TGAColor &color) {
     int bbminx = std::min(std::min(ax, bx), cx); // bounding box for the triangle
     int bbminy = std::min(std::min(ay, by), cy); // defined by its top left and bottom right corners
@@ -52,11 +56,20 @@ void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuf
     if (total_area < 1) return;
     for (int x = bbminx; x <= bbmaxx; x++) {
         for (int y = bbminy; y <= bbmaxy; y++) {
-            double alpha = signed_triangle_area(x, y, bx, by, cx, cy) / total_area;
-            double beta = signed_triangle_area(x, y, cx, cy, ax, ay) / total_area;
-            double gamma = signed_triangle_area(x, y, ax, ay, bx, by) / total_area;
-            if (alpha < 0 || beta < 0 || gamma < 0) continue; // negative barycentric coordinate => the pixel is outside the triangle
-            framebuffer.set(x, y, color);
+            // signed area
+            // double alpha = signed_triangle_area(x, y, bx, by, cx, cy) / total_area;
+            // double beta = signed_triangle_area(x, y, cx, cy, ax, ay) / total_area;
+            // double gamma = signed_triangle_area(x, y, ax, ay, bx, by) / total_area;
+            // if (alpha < 0 || beta < 0 || gamma < 0) continue; // negative barycentric coordinate => the pixel is outside the triangle
+            // framebuffer.set(x, y, color);
+
+            // Edge Function
+            double a = edge_function(ax, ay, bx, by, x, y);
+            double b = edge_function(bx, by, cx, cy, x, y);
+            double c = edge_function(cx, cy, ax, ay, x, y);
+            if ((a >= 0 && b>=0 && c>=0) || (a<=0 && b<=0 && c<=0)) {
+                framebuffer.set(x, y, color);
+            }
         }
     }
 }
