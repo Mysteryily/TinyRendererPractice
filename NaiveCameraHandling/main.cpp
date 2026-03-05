@@ -1,5 +1,6 @@
 #include <cmath>
 #include <tuple>
+#include <algorithm>
 #include "geometry.h"
 #include "model.h"
 #include "tgaimage.h"
@@ -34,17 +35,26 @@ void triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, int cy, in
     double total_area = signed_triangle_area(ax, ay, bx, by, cx, cy);
     if (total_area < 1) return; // backface culling + discarding triangles that cover less than a pixel
 
-#pragma omp parallel for
+    // [-1, 1] rot-> [(1 - sqrt(3))/2, (sqrt(3)+3)/2] project-> [(1 - sqrt(3))/2, (sqrt(3)+3)/2] * 255 / 2
+    const double sqrt3 = std::sqrt(3.0);
+    const double low = (1.0 - sqrt3) / 2.0 * 255.0 / 2.0;
+    const double high = (sqrt3 + 3.0) / 2.0 * 255.0 / 2.0;
+    const double range = high - low;
+
     for (int x = bbminx; x <= bbmaxx; x++) {
         for (int y = bbminy; y <= bbmaxy; y++) {
             double alpha = signed_triangle_area(x, y, bx, by, cx, cy) / total_area;
             double beta = signed_triangle_area(x, y, cx, cy, ax, ay) / total_area;
             double gamma = signed_triangle_area(x, y, ax, ay, bx, by) / total_area;
             if (alpha < 0 || beta < 0 || gamma < 0) continue; // negative barycentric coordinate => the pixel is outside the triangle
-            auto z = static_cast<uint8_t>(alpha * az + beta * bz + gamma * cz);
-            if (z <= zbuffer.get(x, y)[0]) continue;
+
+            double z_interp = alpha * az + beta * bz + gamma * cz;
+            double z_mapped = (z_interp - low) * 255.0 / range;
+            if (z_mapped <= zbuffer.get(x, y)[0]) continue;
+            uint8_t z = static_cast<uint8_t>(std::clamp(z_mapped, 0.0, 255.0));
             zbuffer.set(x, y, {z});
-            framebuffer.set(x, y, color);
+            // Use {z, 0, 0} as color to visualize more clearly
+            framebuffer.set(x, y, {z,0,0});
         }
     }
 }
