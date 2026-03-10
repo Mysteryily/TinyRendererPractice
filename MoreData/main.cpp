@@ -73,36 +73,38 @@ int main(int argc, char **argv) {
     TGAImage framebuffer(width, height, TGAImage::RGB);
 
     Model model("../obj/african_head/african_head.obj");
-    PhongShader shader(model, light);
+    PhongShader head_shader(model, light);
 
     for (int i = 0; i < model.nfaces(); i++) {
         // iterate through all triangles
         Triangle clip = {
-            shader.vertex(i, 0), // assemble the primitive
-            shader.vertex(i, 1),
-            shader.vertex(i, 2)
+            head_shader.vertex(i, 0), // assemble the primitive
+            head_shader.vertex(i, 1),
+            head_shader.vertex(i, 2)
         };
-        rasterize(clip, shader, framebuffer); // rasterize the primitive
+        rasterize(clip, head_shader, framebuffer); // rasterize the primitive
     }
 
     Model eye_inner_model("../obj/african_head/african_head_eye_inner.obj");
+    PhongShader eye_inner_shader(eye_inner_model, light);
     for (int i = 0; i < eye_inner_model.nfaces(); i++) {
         Triangle clip = {
-            shader.vertex(i, 0),
-            shader.vertex(i, 1),
-            shader.vertex(i, 2)
+            eye_inner_shader.vertex(i, 0),
+            eye_inner_shader.vertex(i, 1),
+            eye_inner_shader.vertex(i, 2)
         };
-        rasterize(clip, shader, framebuffer);
+        rasterize(clip, eye_inner_shader, framebuffer);
     }
 
     Model eye_outer_model("../obj/african_head/african_head_eye_outter.obj");
+    PhongShader eye_outer_shader(eye_outer_model, light);
     for (int i = 0; i < eye_outer_model.nfaces(); i++) {
         Triangle clip = {
-            shader.vertex(i, 0),
-            shader.vertex(i, 1),
-            shader.vertex(i, 2)
+            eye_outer_shader.vertex(i, 0),
+            eye_outer_shader.vertex(i, 1),
+            eye_outer_shader.vertex(i, 2)
         };
-        rasterize(clip, shader, framebuffer);
+        rasterize(clip, eye_outer_shader, framebuffer);
     }
     framebuffer.write_tga_file("framebuffer.tga");
     return 0;
