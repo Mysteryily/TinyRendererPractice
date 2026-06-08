@@ -2,7 +2,7 @@
 
 ### LineDrawing
 
-![image-20260516222234587](D:\cproject\TinyRendererPractice\assets\image-20260516222234587.png)
+![image-20260516222234587](./assets/image-20260516222234587.png)
 
 ```c++
 void line(int ax, int ay, int bx, int by, TGAImage &framebuffer, TGAColor color) {
@@ -30,10 +30,10 @@ void line(int ax, int ay, int bx, int by, TGAImage &framebuffer, TGAColor color)
 
 判断点是否在三角形内部，三次叉乘即可。
 
-![image-20260516224140669](D:\cproject\TinyRendererPractice\assets\image-20260516224140669.png)
+![image-20260516224140669](./assets/image-20260516224140669.png)
 
 有向三角形面积公式
-![image-20260518230436895](D:\cproject\TinyRendererPractice\assets\image-20260518230436895.png)
+![image-20260518230436895](./assets/image-20260518230436895.png)
 
 
 
@@ -58,11 +58,11 @@ for each triangle t:
 
 朴素相机推导
 
-![image-20260518231832981](D:\cproject\TinyRendererPractice\assets\image-20260518231832981.png)
+![image-20260518231832981](./assets/image-20260518231832981.png)
 
 Viewport视口矩阵
 
-![image-20260519081726297](D:\cproject\TinyRendererPractice\assets\image-20260519081726297.png)
+![image-20260519081726297](./assets/image-20260519081726297.png)
 
 Perspective deformation透视
 
@@ -73,9 +73,9 @@ vec3 persp(vec3 v) {
 }
 ```
 
-![image-20260519081805962](D:\cproject\TinyRendererPractice\assets\image-20260519081805962.png)
+![image-20260519081805962](./assets/image-20260519081805962.png)
 
-![image-20260520000217052](D:\cproject\TinyRendererPractice\assets\image-20260520000217052.png)
+![image-20260520000217052](./assets/image-20260520000217052.png)
 
 ![image-20260520000232242](D:\cproject\TinyRendererPractice\assets\image-20260520000232242.png)
 
@@ -83,19 +83,19 @@ vec3 persp(vec3 v) {
 
 ### Shading
 
-![image-20260520081805656](D:\cproject\TinyRendererPractice\assets\image-20260520081805656.png)
+![image-20260520081805656](./assets/image-20260520081805656.png)
 
 #### **Phong reflection model**
 
-![image-20260521073707046](D:\cproject\TinyRendererPractice\assets\image-20260521073707046.png)
+![image-20260521073707046](./assets/image-20260521073707046.png)
 
-![image-20260521073839390](D:\cproject\TinyRendererPractice\assets\image-20260521073839390.png)通过**插值**平滑着色
+![image-20260521073839390](./assets/image-20260521073839390.png)通过**插值**平滑着色
 
 通过纹理贴图、法线贴图、高光贴图、环境光贴图优化
 
 ### Tangent Space
 
-![image-20260602072250579](D:\cproject\TinyRendererPractice\assets\image-20260602072250579.png)
+![image-20260602072250579](./assets/image-20260602072250579.png)
 
 ## Shadow mapping
 
@@ -119,7 +119,7 @@ vec3 persp(vec3 v) {
 
 ### SSAO
 
-![image-20260608155912823](D:\cproject\TinyRendererPractice\assets\image-20260608155912823.png)
+![image-20260608155912823](./assets/image-20260608155912823.png)
 
 
 
